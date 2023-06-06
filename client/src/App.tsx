@@ -3,16 +3,7 @@ import './App.css'
 import axios from 'axios';
 
 import Table from './components/Table';
-
-type Expense = {
-  id: number;
-  name: string;
-  date: string;
-  amount: string;
-  category: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import type { Expense } from './types/types';
 
 function App() {
   const [ text, setText ] = useState('Hello MVP!');
