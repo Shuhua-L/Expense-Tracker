@@ -2,7 +2,7 @@ import express, { Application } from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import controllers from './controllers'
+import * as controllers from './controllers'
 
 const app: Application = express();
 dotenv.config();
@@ -15,6 +15,7 @@ app.use(logger(':method :url :status - :response-time ms'))
 
 app.get('/', controllers.homePage);
 app.get('/expenses', controllers.getRecords);
+app.post('/expenses', controllers.postRecords);
 
 const PORT = process.env.PORT || 3000;
 

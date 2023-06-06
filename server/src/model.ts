@@ -20,8 +20,14 @@ const Expense = db.define('expenses', {
     autoIncrement: true
   },
   name: DataTypes.STRING,
-  date: DataTypes.DATE,
-  amount: DataTypes.INTEGER,
+  date: {
+    type: DataTypes.DATEONLY,
+    defaultValue: DataTypes.NOW
+  },
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false
+  },
   category: {
     type: DataTypes.INTEGER,
     references: { model: Category, key: 'id' }
@@ -29,5 +35,6 @@ const Expense = db.define('expenses', {
 })
 
 db.sync();
+// db.sync({force: true});
 
 export default { Category, Expense };
