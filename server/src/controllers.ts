@@ -18,7 +18,7 @@ export function postRecords (req: Request, res: Response) {
   console.log('post: ', req.body);
   models.Expense.create(req.body)
     .then(result => {
-      console.log('Post result:',result)
+      console.log('Post result:', JSON.stringify(result))
       res.status(201).json(result)
     })
     .catch(error => console.log(error))
