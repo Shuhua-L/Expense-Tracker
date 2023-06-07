@@ -3,6 +3,7 @@ import './App.css'
 import axios from 'axios';
 
 import Table from './components/Table';
+import Form from './components/Form';
 import type { Expense } from './types/types';
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
     <br />
 
     <Table expenses={expenses} />
+    <br />
+    <Form />
     </>
   )
 }
