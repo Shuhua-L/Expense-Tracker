@@ -1,41 +1,91 @@
-import { DataTypes } from 'sequelize';
-import db from './db/db'
+import { Model, Optional, DataTypes } from 'sequelize';
+import db from './db/db';
 
-const Category = db.define('categories', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  user: DataTypes.STRING,
-  name: DataTypes.STRING,
-}, {
-  timestamps: false
-})
+interface CategoryAttributes {
+  id: number;
+  user: string;
+  name: string;
+}
 
-const Expense = db.define('expenses', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-  name: DataTypes.STRING,
-  date: {
-    type: DataTypes.DATEONLY,
-    defaultValue: DataTypes.NOW
-  },
-  amount: {
-    type: DataTypes.DECIMAL(10, 2),
-    allowNull: false
-  },
-  categoryId: {
-    type: DataTypes.INTEGER,
-    references: { model: Category, key: 'id' }
-  },
-})
+interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> {}
 
-Category.hasMany(Expense);
-Expense.belongsTo(Category);
+class Category extends Model<CategoryAttributes, CategoryCreationAttributes> implements CategoryAttributes {
+  public id!: number;
+  public user!: string;
+  public name!: string;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+interface ExpenseAttributes {
+  id: number;
+  name: string;
+  date: Date;
+  amount: number;
+  categoryId: number;
+}
+
+interface ExpenseCreationAttributes extends Optional<ExpenseAttributes, 'id'> {}
+
+class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
+  public id!: number;
+  public name!: string;
+  public date!: Date;
+  public amount!: number;
+  public categoryId!: number;
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+Category.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    user: DataTypes.STRING,
+    name: DataTypes.STRING,
+  },
+  {
+    timestamps: false,
+    indexes: [{ unique: false, fields: ['name'] }],
+    sequelize: db,
+    tableName: 'categories',
+  }
+);
+
+Expense.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: DataTypes.STRING,
+    date: {
+      type: DataTypes.DATEONLY,
+      defaultValue: DataTypes.NOW
+    },
+    amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      references: { model: Category, key: 'id' }
+    },
+  },
+  {
+    sequelize: db,
+    tableName: 'expenses',
+  }
+);
+
+Category.hasMany(Expense, {foreignKey: "categoryId"});
+Expense.belongsTo(Category, {foreignKey: "categoryId"});
 
 db.sync();
 // db.sync({force: true});
