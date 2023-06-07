@@ -36,8 +36,13 @@ const insertExpense = (expense: Expense, res: Response) => {
   const date = new Date(expense.date)
   const amount = Number(expense.amount)
 
-
-  // console.log(category);
+  /**
+   * Takes a Expense object
+   * 1. find the category id in the Category table
+   * 2. insert a new expense record
+   * 3. retrieve all records in the Expenses table
+   * 4. return a list of expenses
+   */
   models.Category.findOrCreate({
     where: { name: category },
     attributes: ['id'],
@@ -45,12 +50,20 @@ const insertExpense = (expense: Expense, res: Response) => {
   })
     .then(([instance, created]) => {
       const categoryId = instance.id;
-      // console.log(categoryId);
 
       return models.Expense.create({ name, date, amount, categoryId })
     })
+    .then(createdResult => {
+      console.log('Post expense:', JSON.stringify(createdResult))
+
+      const getCategory = '(SELECT name FROM categories WHERE \"categoryId\" = categories.id)';
+      return models.Expense.findAll({
+        attributes: ['id', 'name', 'date', 'amount',
+          [Sequelize.literal(getCategory), 'category']]
+      })
+    })
     .then(result => {
-      console.log('Post expense:', JSON.stringify(result))
+      console.log('All expense:', JSON.stringify(result))
       res.status(201).json(result)
     })
     .catch(error => {
@@ -60,28 +73,30 @@ const insertExpense = (expense: Expense, res: Response) => {
 }
 
 export function postWithObject(req: Request, res: Response) {
-  const { name, date, amount, category } = req.body;
+  insertExpense(req.body, res)
 
-  console.log(category);
-  models.Category.findOrCreate({
-    where: { name: category },
-    attributes: ['id'],
-    raw: true
-  })
-    .then(([instance, created]) => {
-      const categoryId = instance.id;
-      console.log(categoryId);
+  // const { name, date, amount, category } = req.body;
 
-      return models.Expense.create({ name, date, amount, categoryId })
-    })
-    .then(result => {
-      // console.log('Post result:', JSON.stringify(result))
-      res.status(201).json(result)
-    })
-    .catch(error => {
-      console.log(error)
-      res.sendStatus(500);
-    })
+  // console.log(category);
+  // models.Category.findOrCreate({
+  //   where: { name: category },
+  //   attributes: ['id'],
+  //   raw: true
+  // })
+  //   .then(([instance, created]) => {
+  //     const categoryId = instance.id;
+  //     console.log(categoryId);
+
+  //     return models.Expense.create({ name, date, amount, categoryId })
+  //   })
+  //   .then(result => {
+  //     // console.log('Post result:', JSON.stringify(result))
+  //     res.status(201).json(result)
+  //   })
+  //   .catch(error => {
+  //     console.log(error)
+  //     res.sendStatus(500);
+  //   })
 }
 
 export function postWithQuery(req: Request, res: Response) {

@@ -11,12 +11,12 @@ let dbName = process.env.DB_NAME!;
 const db = new Sequelize(dbName, dbUser, dbPass, {
   host: dbHost,
   dialect: 'postgres',
-  benchmark: true,
-  logging(sql, timing) {
-    console.log(`[Execution time: ${timing}ms]
-     -  ${sql} \n`)
-  },
-  // logging: false
+  // benchmark: true,
+  // logging(sql, timing) {
+  //   console.log(`[Execution time: ${timing}ms]
+  //    -  ${sql} \n`)
+  // },
+  logging: false
 });
 
 // // Testing connection

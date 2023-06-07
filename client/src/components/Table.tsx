@@ -15,19 +15,19 @@ const Table = ({ expenses }: TableProps) => {
             </th>
 
             <th scope="col" className="px-6 py-3">
-              <div className="flex items-center">
+              <div className="flex items-center justify-center">
                 Category
                 <SortOption />
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
-              <div className="flex items-center">
+              <div className="flex items-center justify-center">
                 Amount
                 <SortOption />
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
-              <div className="flex items-center">
+              <div className="flex items-center justify-center">
                 Date
                 <SortOption />
               </div>
