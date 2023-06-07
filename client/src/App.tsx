@@ -22,7 +22,7 @@ function App() {
     })
     .catch(err => console.log('Error:', err));
 
-  }, [])
+  }, []);
 
   return (
     <>
@@ -33,7 +33,7 @@ function App() {
 
     <Table expenses={expenses} />
     <br />
-    <Form />
+    <Form updateTable={setExpenses}/>
     </>
   )
 }

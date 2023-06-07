@@ -1,9 +1,12 @@
 import { useState } from "react";
+import axios from 'axios';
 
-const Form = () => {
+import type { FormProps } from "../types/types";
+
+const Form = ({ updateTable }: FormProps) => {
 
   const [loadingMode, setLoadingMode] = useState(false);
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("This morning, I bought a cup of coffee for $5 on my way to work.")
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     console.log(e.currentTarget.value)
@@ -11,8 +14,21 @@ const Form = () => {
   }
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setLoadingMode(!loadingMode);
+    setLoadingMode(true);
     console.log('sent: ', query)
+
+    axios.post(`${import.meta.env.VITE_SERVER_URL}/smart/expenses`, { query })
+    .then((result) => {
+      setLoadingMode(false);
+      console.log('POST result: ', result.data)
+      updateTable(result.data);
+      setQuery('');
+    })
+    .catch(err => {
+      setLoadingMode(false);
+      console.log('Error:', err)
+      setQuery('');
+    });
   }
 
   return (

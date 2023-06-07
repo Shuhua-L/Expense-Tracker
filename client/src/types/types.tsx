@@ -14,5 +14,9 @@ interface RowProps {
   expense: Expense;
 }
 
-export type { Expense, TableProps, RowProps }
+interface FormProps {
+  updateTable: React.Dispatch<React.SetStateAction<Expense[]>>;
+}
+
+export type { Expense, TableProps, RowProps, FormProps }
 
