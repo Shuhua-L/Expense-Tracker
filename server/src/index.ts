@@ -15,7 +15,8 @@ app.use(logger(':method :url :status - :response-time ms'))
 
 app.get('/', controllers.homePage);
 app.get('/expenses', controllers.getRecords);
-app.post('/expenses', controllers.postRecords);
+app.post('/expenses', controllers.postWithObject);
+app.post('/smart/expenses', controllers.postWithQuery);
 
 const PORT = process.env.PORT || 3000;
 

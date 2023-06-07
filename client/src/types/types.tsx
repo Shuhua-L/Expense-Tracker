@@ -3,9 +3,7 @@ type Expense = {
   name: string;
   date: string;
   amount: string;
-  category: number;
-  createdAt: string;
-  updatedAt: string;
+  category: string;
 }
 
 interface TableProps {
