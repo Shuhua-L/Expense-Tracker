@@ -28,11 +28,14 @@ const Expense = db.define('expenses', {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false
   },
-  category: {
+  categoryId: {
     type: DataTypes.INTEGER,
     references: { model: Category, key: 'id' }
   },
 })
+
+Category.hasMany(Expense);
+Expense.belongsTo(Category);
 
 db.sync();
 // db.sync({force: true});

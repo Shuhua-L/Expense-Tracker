@@ -8,13 +8,13 @@ const Row = ({ expense }: RowProps) => {
     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
       {expense.name}
     </th>
-    <td className="px-6 py-4">
+    <td className="px-6 py-4 text-center">
       {expense.category}
     </td>
-    <td className="px-6 py-4">
+    <td className="px-6 py-4 text-center">
       {expense.amount}
     </td>
-    <td className="px-6 py-4">
+    <td className="px-6 py-4 text-center">
       {expense.date}
     </td>
     <td className="px-6 py-4 text-right">
