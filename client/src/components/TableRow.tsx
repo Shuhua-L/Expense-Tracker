@@ -17,9 +17,9 @@ const Row = ({ expense }: RowProps) => {
     <td className="px-6 py-4 text-center">
       {expense.date}
     </td>
-    <td className="px-6 py-4 text-right">
+    {/* <td className="px-6 py-4 text-right">
       <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-    </td>
+    </td> */}
   </tr>
   );
 }

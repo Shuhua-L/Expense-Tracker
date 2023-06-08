@@ -4,6 +4,8 @@ import axios from 'axios';
 
 import Table from './components/Table';
 import Form from './components/Form';
+// import Dictaphone from './components/Dictaphone';
+
 import type { Expense } from './types/types';
 
 function App() {
@@ -21,7 +23,6 @@ function App() {
       setExpenses(result.data)
     })
     .catch(err => console.log('Error:', err));
-
   }, []);
 
   return (
@@ -34,6 +35,10 @@ function App() {
     <Table expenses={expenses} />
     <br />
     <Form updateTable={setExpenses}/>
+    <br />
+
+    {/* <Dictaphone /> */}
+    <br />
     </>
   )
 }
