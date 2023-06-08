@@ -6,7 +6,7 @@ import { fetchOpenAI } from './intelligence';
 type Expense = {
   name: string;
   date: string;
-  amount: string;
+  amount: number;
   category: string;
 }
 
@@ -33,8 +33,10 @@ export function getRecords(req: Request, res: Response) {
 
 const insertExpense = (expense: Expense, res: Response) => {
   const { name, category } = expense;
-  const date = new Date(expense.date)
+  const date = Date.parse(expense.date)
   const amount = Number(expense.amount)
+
+  // console.log('Insert: ', date)
 
   /**
    * Takes a Expense object
@@ -50,11 +52,11 @@ const insertExpense = (expense: Expense, res: Response) => {
   })
     .then(([instance, created]) => {
       const categoryId = instance.id;
-
+      // console.log('Before create: ', date)
       return models.Expense.create({ name, date, amount, categoryId })
     })
     .then(createdResult => {
-      console.log('Post expense:', JSON.stringify(createdResult))
+      // console.log('Post expense:', JSON.stringify(createdResult))
 
       const getCategory = '(SELECT name FROM categories WHERE \"categoryId\" = categories.id)';
       return models.Expense.findAll({
