@@ -40,3 +40,28 @@
 .read-the-docs {
   color: #888;
 }
+
+@keyframes colorChange {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: rgb(177, 96, 96);
+  }
+  100% {
+    background-color: red;
+  }
+}
+
+.Nuclear {
+  background-color: white;
+  animation: colorChange 2s infinite;
+  margin: 3%;
+  height: 10em;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.Nuclear:hover {
+  color: white;
+}
