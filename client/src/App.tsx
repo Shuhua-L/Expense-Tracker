@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className='container'>
      <h1 className="text-3xl font-bold">
     {text}
     </h1>
@@ -39,7 +39,7 @@ function App() {
 
     {/* <Dictaphone /> */}
     <br />
-    </>
+    </div>
   )
 }
 

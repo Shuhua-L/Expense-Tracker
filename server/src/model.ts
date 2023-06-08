@@ -7,7 +7,7 @@ interface CategoryAttributes {
   name: string;
 }
 
-interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> {}
+interface CategoryCreationAttributes extends Optional<CategoryAttributes, 'id'> { }
 
 class Category extends Model<CategoryAttributes, CategoryCreationAttributes> implements CategoryAttributes {
   public id!: number;
@@ -21,17 +21,17 @@ class Category extends Model<CategoryAttributes, CategoryCreationAttributes> imp
 interface ExpenseAttributes {
   id: number;
   name: string;
-  date: Date;
+  date: number;
   amount: number;
   categoryId: number;
 }
 
-interface ExpenseCreationAttributes extends Optional<ExpenseAttributes, 'id'> {}
+interface ExpenseCreationAttributes extends Optional<ExpenseAttributes, 'id'> { }
 
 class Expense extends Model<ExpenseAttributes, ExpenseCreationAttributes> implements ExpenseAttributes {
   public id!: number;
   public name!: string;
-  public date!: Date;
+  public date!: number;
   public amount!: number;
   public categoryId!: number;
 
@@ -66,8 +66,12 @@ Expense.init(
     },
     name: DataTypes.STRING,
     date: {
-      type: DataTypes.DATEONLY,
-      defaultValue: DataTypes.NOW
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      get() {
+        const dateInMS = this.getDataValue('date');
+        return new Date(Number(dateInMS)).toISOString().slice(5, 10);
+      },
     },
     amount: {
       type: DataTypes.DECIMAL(10, 2),
@@ -84,8 +88,8 @@ Expense.init(
   }
 );
 
-Category.hasMany(Expense, {foreignKey: "categoryId"});
-Expense.belongsTo(Category, {foreignKey: "categoryId"});
+Category.hasMany(Expense, { foreignKey: "categoryId" });
+Expense.belongsTo(Category, { foreignKey: "categoryId" });
 
 db.sync();
 // db.sync({force: true});
