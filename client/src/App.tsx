@@ -12,6 +12,12 @@ function App() {
   const [ text, setText ] = useState('Hello MVP!');
   const [ expenses, setExpenses ] = useState<Expense[]>([]);
 
+  const removeRow = (id: number) => {
+    const filtered = expenses.filter(x => x.id != id);
+    console.log('Filtered: ', filtered)
+    setExpenses(filtered)
+  }
+
   useEffect(() => {
     axios(`${import.meta.env.VITE_SERVER_URL}/`)
     .then((result) => setText(result.data))
@@ -32,7 +38,7 @@ function App() {
     </h1>
     <br />
 
-    <Table expenses={expenses} />
+    <Table expenses={expenses} removeRow={removeRow}/>
     <br />
     <Form updateTable={setExpenses}/>
     <br />

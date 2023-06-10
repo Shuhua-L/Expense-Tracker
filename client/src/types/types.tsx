@@ -8,10 +8,12 @@ type Expense = {
 
 interface TableProps {
   expenses: Expense[];
+  removeRow: (id: number) => void;
 }
 
 interface RowProps {
   expense: Expense;
+  removeRow: (id: number) => void;
 }
 
 interface FormProps {

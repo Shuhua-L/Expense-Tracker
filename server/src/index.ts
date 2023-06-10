@@ -17,6 +17,7 @@ app.get('/', controllers.homePage);
 app.get('/expenses', controllers.getRecords);
 app.post('/expenses', controllers.postWithObject);
 app.post('/smart/expenses', controllers.postWithQuery);
+app.delete('/expenses/:id', controllers.deleteExpense)
 
 const PORT = process.env.PORT || 3000;
 

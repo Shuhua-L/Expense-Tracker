@@ -28,7 +28,7 @@ export function getRecords(req: Request, res: Response) {
       // console.log('FindAll result:',result)
       res.json(result)
     })
-    .catch(error => console.log(error))
+    .catch(error => res.status(500).send(error))
 }
 
 const insertExpense = (expense: Expense, res: Response) => {
@@ -141,5 +141,11 @@ export function postWithQuery(req: Request, res: Response) {
   //     console.log(error)
   //     res.sendStatus(500);
   //   })
+}
+
+export function deleteExpense(req: Request, res: Response) {
+models.Expense.destroy({ where: {id: req.params.id}})
+  .then(() => res.sendStatus(204))
+  .catch(error => res.status(500).send(error))
 }
 
