@@ -1,9 +1,9 @@
-import SortOption from "./SortOption";
+import IconSort from "../assets/iconSort";
 import Row from './TableRow';
 
-import type { TableProps } from "../types/types";
+import type { TableProps } from "../utilities/types";
 
-const Table = ({ expenses }: TableProps) => {
+const Table = ({ expenses, removeRow, updateTable }: TableProps) => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -17,19 +17,19 @@ const Table = ({ expenses }: TableProps) => {
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center justify-center">
                 Category
-                <SortOption />
+                <a href="#"><IconSort /></a>
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center justify-center">
                 Amount
-                <SortOption />
+                <a href="#"><IconSort /></a>
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center justify-center">
                 Date
-                <SortOption />
+                <a href="#"><IconSort /></a>
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
@@ -41,7 +41,7 @@ const Table = ({ expenses }: TableProps) => {
         <tbody>
           {expenses.map((item) => {
             return (
-              <Row expense={item} key={item.id} />
+              <Row expense={item} key={item.id} removeRow={removeRow} updateTable={updateTable}/>
             )
           })}
         </tbody>
