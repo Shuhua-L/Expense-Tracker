@@ -3,10 +3,10 @@ import Row from './TableRow';
 
 import type { TableProps } from "../types/types";
 
-const Table = ({ expenses, removeRow }: TableProps) => {
+const Table = ({ expenses, removeRow, updateTable }: TableProps) => {
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative overflow-auto shadow-md sm:rounded-lg max-w-5xl">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -41,7 +41,7 @@ const Table = ({ expenses, removeRow }: TableProps) => {
         <tbody>
           {expenses.map((item) => {
             return (
-              <Row expense={item} key={item.id} removeRow={removeRow}/>
+              <Row expense={item} key={item.id} removeRow={removeRow} updateTable={updateTable}/>
             )
           })}
         </tbody>

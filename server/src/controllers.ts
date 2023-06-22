@@ -144,8 +144,43 @@ export function postWithQuery(req: Request, res: Response) {
 }
 
 export function deleteExpense(req: Request, res: Response) {
-models.Expense.destroy({ where: {id: req.params.id}})
-  .then(() => res.sendStatus(204))
-  .catch(error => res.status(500).send(error))
+  models.Expense.destroy({ where: { id: req.params.id } })
+    .then(() => res.sendStatus(204))
+    .catch(error => res.status(500).send(error))
 }
 
+export function getCategories(req: Request, res: Response) {
+  models.Category.findAll({
+    attributes: ['name'],
+    raw: true
+  })
+    .then((result) => {
+      res.json(result.map(obj => obj.name))
+    })
+    .catch(error => res.status(500).send(error))
+}
+
+export function updateExpense(req: Request, res: Response) {
+  const expense = req.body;
+  expense.date = Date.parse(req.body.date)
+  expense.amount = Number(req.body.amount)
+
+  models.Expense.update(expense, { where: { id: req.params.id } })
+  .then(updatedResult => {
+    console.log('PUT expense:', JSON.stringify(updatedResult))
+
+    const getCategory = '(SELECT name FROM categories WHERE \"categoryId\" = categories.id)';
+    return models.Expense.findAll({
+      attributes: ['id', 'name', 'date', 'amount',
+        [Sequelize.literal(getCategory), 'category']]
+    })
+  })
+  .then(result => {
+    console.log('All expense:', JSON.stringify(result))
+    res.status(201).json(result)
+  })
+  .catch(error => {
+    console.log('Error updating expense:', error)
+    res.sendStatus(500);
+  })
+}

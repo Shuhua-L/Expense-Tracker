@@ -9,16 +9,28 @@ type Expense = {
 interface TableProps {
   expenses: Expense[];
   removeRow: (id: number) => void;
+  updateTable: React.Dispatch<React.SetStateAction<Expense[]>>;
 }
 
 interface RowProps {
   expense: Expense;
   removeRow: (id: number) => void;
+  updateTable: React.Dispatch<React.SetStateAction<Expense[]>>;
 }
 
 interface FormProps {
   updateTable: React.Dispatch<React.SetStateAction<Expense[]>>;
 }
 
-export type { Expense, TableProps, RowProps, FormProps }
+interface ModalDeleteProps {
+  id: number,
+  removeRow: (id: number) => void;
+}
+
+interface ModalEditProps {
+  expense: Expense;
+  updateTable: React.Dispatch<React.SetStateAction<Expense[]>>;
+}
+
+export type { Expense, TableProps, RowProps, FormProps, ModalDeleteProps, ModalEditProps }
 
