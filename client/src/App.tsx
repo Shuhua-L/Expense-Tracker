@@ -7,15 +7,17 @@ import Form from './components/Form';
 // import Dictaphone from './components/Dictaphone';
 import FormCreate from './components/FormCreate';
 
-import type { Expense } from './types/types';
+import type { Expense } from './utilities/types';
+import { CategoriesContext } from './utilities/Context'
 
 function App() {
   const [text, setText] = useState('SpeakSpend - Effortless Expense Tracking with AI');
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [categories, setCategories] = useState([]);
 
   const removeRow = (id: number) => {
     const filtered = expenses.filter(x => x.id != id);
-    console.log('Filtered: ', filtered)
+    // console.log('Filtered: ', filtered)
     setExpenses(filtered)
   }
 
@@ -26,20 +28,27 @@ function App() {
 
     axios(`${import.meta.env.VITE_SERVER_URL}/expenses`)
       .then((result) => {
-        console.log(result.data)
+        // console.log(result.data)
         setExpenses(result.data)
       })
       .catch(err => console.log('Error:', err));
+
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/categories`)
+      .then(response => {
+        // console.log(response.data);
+        setCategories(response.data)
+      })
   }, []);
 
   return (
-    <div className='container'>
+    <CategoriesContext.Provider value={categories}>
+    <div className='container w-screen'>
       <h1 className="text-3xl font-bold">
         {text}
       </h1>
       <br />
 
-      <div className='w-screen h-[65vh] space-x-3 m-auto'>
+      <div className='h-[65vh] space-x-3 m-auto'>
         <FormCreate updateTable={setExpenses}/>
         <Table expenses={expenses} removeRow={removeRow} updateTable={setExpenses} />
       </div>
@@ -50,6 +59,7 @@ function App() {
       {/* <Dictaphone /> */}
       <br />
     </div>
+    </CategoriesContext.Provider >
   )
 }
 

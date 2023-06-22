@@ -1,12 +1,12 @@
 import IconSort from "../assets/iconSort";
 import Row from './TableRow';
 
-import type { TableProps } from "../types/types";
+import type { TableProps } from "../utilities/types";
 
 const Table = ({ expenses, removeRow, updateTable }: TableProps) => {
 
   return (
-    <div className="relative overflow-auto shadow-md sm:rounded-lg max-w-5xl">
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>

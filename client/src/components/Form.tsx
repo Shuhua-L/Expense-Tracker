@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
-import type { FormProps } from "../types/types";
+import type { FormProps } from "../utilities/types";
 import IconMic from "../assets/iconMic";
 import IconMute from "../assets/iconMute";
 import IconSend from "../assets/iconSend";
@@ -29,7 +29,7 @@ const Form = ({ updateTable }: FormProps) => {
   // const startListening = () => SpeechRecognition.startListening({ continuous: true });
 
   const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    console.log(e.currentTarget.value)
+    // console.log(e.currentTarget.value)
     setQuery(e.currentTarget.value)
   }
 
@@ -58,14 +58,14 @@ const Form = ({ updateTable }: FormProps) => {
       .catch(err => console.log(err))
 
     if (query.length > 0) {
-      console.log('sent: ', query)
+      // console.log('sent: ', query)
       setQuery('');
       resetTranscript();
 
       axios.post(`${import.meta.env.VITE_SERVER_URL}/smart/expenses`, { query })
         .then((result) => {
           setLoadingMode(false);
-          console.log('POST result: ', result.data)
+          // console.log('POST result: ', result.data)
           updateTable(result.data);
 
         })

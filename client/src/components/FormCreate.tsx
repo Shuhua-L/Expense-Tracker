@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import axios from 'axios';
 
-import type { FormProps } from "../types/types";
+import type { ModalCreate } from "../utilities/types";
 import IconClose from '../assets/iconClose';
+import { CategoriesContext } from '../utilities/Context';
 
-const FormCreate = ({ updateTable }: FormProps) => {
+const FormCreate = ({ updateTable }: ModalCreate) => {
   const initForm = {
     "name": '',
     "date": '',
@@ -13,16 +14,9 @@ const FormCreate = ({ updateTable }: FormProps) => {
   };
 
   const [modalMode, setModalMode] = useState(false);
-  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(initForm);
+  const categories = useContext(CategoriesContext);
 
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_SERVER_URL}/categories`)
-      .then(response => {
-        console.log(response.data);
-        setCategories(response.data)
-      })
-  }, [])
 
   const handleClickMode: React.MouseEventHandler<HTMLButtonElement> = () => {
     setModalMode(!modalMode);
@@ -34,11 +28,11 @@ const FormCreate = ({ updateTable }: FormProps) => {
 
   const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     // e.preventDefault();
-    console.log(form);
+    // console.log(form);
     // TODO: validation
     axios.post(`${import.meta.env.VITE_SERVER_URL}/expenses`, form)
       .then(response => {
-        console.log('POST result: ', response.data)
+        // console.log('POST result: ', response.data)
         updateTable(response.data);
         setModalMode(false)
         setForm(initForm);
@@ -56,7 +50,7 @@ const FormCreate = ({ updateTable }: FormProps) => {
 
       <div id="popup-modal" tabIndex={-1}
         className={`fixed z-50 ${modalMode ? "" : "hidden"}
-      top-0 left-0 right-0
+      top-0 left-0 right-0 backdrop-blur-lg
       p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
         <div className="relative w-5/6 max-h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -70,11 +64,14 @@ const FormCreate = ({ updateTable }: FormProps) => {
             </button>
 
             <form className="flex flex-col w-5/6 items-center space-y-4 p-4 m-auto">
+              <h1 className="text-3xl font-bold">
+                Add a new Expense
+              </h1>
 
               <div className="flex justify-end items-center w-5/6">
                 <label className="w-1/3 dark:text-gray-200" htmlFor="name">Expense</label>
                 <input id="name" type="text" onChange={handleChange}
-                value={form.name || ''} required
+                  value={form.name || ''} required
                   className="w-full px-4 py-2 mt-2 text-gray-700
                 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300
                 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
@@ -84,7 +81,7 @@ const FormCreate = ({ updateTable }: FormProps) => {
               <div className="flex justify-center items-center w-5/6">
                 <label className="w-1/3 dark:text-gray-200" htmlFor="amount">Amount</label>
                 <input id="amount" type="number" onChange={handleChange}
-                value={form.amount || ''} required
+                  value={form.amount || ''} required
                   className="block w-full px-4 py-2 mt-2 text-gray-700
                  bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300
                   dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" />
